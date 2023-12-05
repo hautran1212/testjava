@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 56px;
+        }
+
+        .navbar {
+            background-color: #4ba863;
+        }
+
+        .product {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .action-button{
+            display: flex;
+            align-items: center;
+        }
+        .button{
+            display: inline-block;
+            outline: 0;
+            border: 0;
+            margin: 5px;
+            cursor: pointer;
+            background: radial-gradient( 100% 100% at 100% 0%, #89E5FF 0%, #5468FF 100% );
+            padding: 10px 32px;
+            border-radius: 6px;
+            color: #fff;
+            height: 48px;
+            font-size: 18px;
+            transition: background 1s ease;
+
+        }
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button-link:hover {
+            background-color: #45a049;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="#">Product List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{'products'}">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'cart'}">Cart</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-5">
+    <!-- Product List -->
+    <div class="row">
+        <div class="col-lg-8">
+            <h2 >Product List</h2>
+            <div class="product" th:each="prod : ${products}">
+<!--                <h4 th:text="${prod.id}"></h4>-->
+                <h4 th:text="${prod.name}"></h4>
+                <p th:text="${prod.price}"></p>
+                <form th:action="@{/cart}" th:method="post" th:object="${product}">
+                    <input type="hidden" th:name="id" th:value="${prod.id}">
+                    <input type="hidden" th:name="name" th:value="${prod.name}">
+                    <input type="hidden" th:name="price" th:value="${prod.price}">
+                    <div class="action-button">
+                        <button class="button" type="submit">Add to Cart</button>
+                        <a class="button" th:href="@{products/detail(productId=${prod.id})}">Detail</a>
+                    </div>
+                </form>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
+    </div>
+        <a class="button-link" th:href="@{'products/add'}">Add Product</a>
+</div>
+</body>
+</html>
+<!--    tên id phải giống trong id  entity-->

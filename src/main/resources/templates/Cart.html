@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your Cart</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar {
+                background-color: #4ba863;
+            }
+
+            .product-details-container {
+                max-width: 800px;
+                max-height: 150px;
+                margin: 90px auto auto;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                overflow: hidden;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .product-image {
+                flex-shrink: 0;
+            }
+
+            .product-image img {
+                max-width: 150px;
+                max-height: 150px;
+                border-top-left-radius: 8px;
+            }
+
+            .product-details {
+                flex-grow: 1;
+                padding: 20px;
+            }
+
+            .action-buttons {
+                display: flex;
+                align-items: center;
+            }
+
+            .add-button, .remove-button {
+                padding: 10px;
+                margin: 0 5px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .add-button {
+                background-color: #3c4fe0;
+                color: #ffffff;
+            }
+
+            .remove-button {
+                background-color: red;
+                color: white;
+            }
+
+            .add-button:hover,
+            .remove-button:hover {
+                filter: brightness(1.2);
+            }
+
+            .add-button:active, .remove-button:active {
+                filter: brightness(0.8);
+            }
+            .checkOutButton{
+
+            }
+
+        </style>
+    </head>
+    <body>
+    <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <a class="navbar-brand" href="#">Your Cart</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{'products'}">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cart</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+            <div class="product-details-container" th:each="prod : ${cart}">
+                <div class="product-image">
+                    <img src="https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg">
+                </div>
+                <div class="product-details">
+                    <p th:text="${'Name: '+ prod.productEntity.name}"></p>
+                    <p id="price" th:text="${'Price: '+prod.productEntity.price}">11111</p>
+                    <p id="amount" th:text="${'Amount: ' + prod.amount}">111</p>
+                </div>
+                <div class="action-buttons">
+                    <form th:action="@{/cart/addOrRemove}" th:method="post" th:object="${cart}">
+                        <input type="hidden" th:name="productEntity.id" th:value="${prod.productEntity.id}">
+                        <input type="hidden" th:name="productEntity.name" th:value="${prod.productEntity.name}">
+                        <input type="hidden" th:name="productEntity.price" th:value="${prod.productEntity.price}">
+                        <input type="hidden" th:name="amount" th:value="${prod.amount}">
+                        <button type="submit" name="action" value="add" class="add-button">Add</button>
+                        <button type="submit" name="action" value="remove" class="remove-button">Remove</button>
+                    </form>
+                </div>
+            </div>
+
+            <a class="checkOutButton" th:href="@{products}">Checkout</a>
+
+
+    </body>
+</html>
